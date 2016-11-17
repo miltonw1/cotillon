@@ -15,7 +15,7 @@ class Usuarios_model extends CI_Model {
 		$dni = intval($dni);
 		$contrasenia = password_hash($contrasenia, PASSWORD_DEFAULT); //https://secure.php.net/manual/es/function.password-hash.php
 		$es_admin = boolval($es_admin);
-		
+
 		//carga de datos a array
 		$data = array(
 				'nombre' => $nombre,
@@ -61,7 +61,7 @@ class Usuarios_model extends CI_Model {
 		);
 
 		$this->db->where('id', $id);
-		$this->db->update();
+    $this->db->update('usuarios', $data);
 
 	}
 
