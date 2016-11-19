@@ -5,8 +5,10 @@
 <body>
   <div align="center">
     <h1><?php echo $mensaje;?></h1>
-    <div>
-      <?php var_dump($titulo); ?>
+
+
+
+<div>
 </div>
 </div>
     </body>

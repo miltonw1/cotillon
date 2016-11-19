@@ -32,13 +32,13 @@ class Usuarios_model extends CI_Model {
 
 	public function leer_por_id($id) {
 		$id=intval($id);
-		return $this-db->get_where('usuarios', array('id_usuarios'=>$id))->row_array();
+		return $this->db->get_where('usuarios', array('id_usuario'=>$id))->row_array();
 
 	}
 
 	public function leer_por_dni($dni) {
 		$dni=intval($dni);
-		return $this-db->get_where('usuarios', array('id_usuarios'=>$id))->row_array();
+		return $this->db->get_where('usuarios', array('id_usuario'=>$id))->row_array();
 
 	}
 
@@ -76,7 +76,7 @@ class Usuarios_model extends CI_Model {
 	}
 
 	public function lista() {
-		return $this->db->get(('usuarios')->result_array();
+		return $this->db->get('usuarios')->result_array();
 	}
 
 	public function cotejar( $dni, $contrasenia ) {

@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Inicio extends CI_Controller {
-	
+
 	public function __construct() {
 		parent::__construct();
 	}
@@ -28,7 +28,9 @@ class Inicio extends CI_Controller {
 				if ( $aux !== FALSE ) {
 					//si coinciden, creo la sesion
 					$data = array(
+						"id_usuario"=>$aux['id_usuario'],
 							"usuario" => $aux['nombre'],
+							"es_admin" => $aux['es_admin'],
 							"esta_logeado" => TRUE
 					);
 					$this->session->set_userdata( $data );

@@ -12,4 +12,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <title>Cotillon</title>
     </head>
     <body>
-    <div>
+    <div class="container">
