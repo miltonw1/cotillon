@@ -60,7 +60,7 @@ class Usuarios_model extends CI_Model {
 				'es_admin' => $es_admin
 		);
 
-		$this->db->where('id', $id);
+		$this->db->where('id_usuario', $id);
     $this->db->update('usuarios', $data);
 
 	}
