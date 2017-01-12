@@ -7,11 +7,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');  ?>
 <input class="form-control" type="text" placeholder="Filtro">
 <div id="contenedor">
 
+  <ul>
   <?php foreach ($usuarios as $user) {
     $innerHTML = $user['nombre']." ".$user['apellido']." DNI: ".$user['dni'];
     $title = "Ver usuario ".$user['nombre']." ".$user['apellido'];
-    echo anchor(base_url("usuario/ver/".$user['id_usuario']), $innerHTML , $title);
+    echo '<div>' . anchor(base_url("usuario/ver/".$user['id_usuario']), $innerHTML , $title).'</div>';
+
   } ?>
+
+</ul>
 
 <div>
 <script src="http://localhost/assets/js/finder.js"> <script>

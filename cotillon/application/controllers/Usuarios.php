@@ -203,7 +203,7 @@ protected  $config_validacion=null;
             $this->load->view('pages/usuarios/actualizar', $data);
           } else {
             //El usuario que se busca no es valido
-            $this->load->view('pages/usuarios/usuario_no_encontrado');
+            $this->load->view('pages/usuarios/id_no_valido');
           }
           $this->load->view('includes/footer');
           }
@@ -251,21 +251,24 @@ protected  $config_validacion=null;
       show_404();
     } else {
       //Logeado
-      if ( $id == 0 ) {
+      $aux = $this->usuarios_model->leer_por_id( $id );
+      if ($this->form_validation->run()===false) {
         //No me paso un ID
-
-      } else {
-        //Me paso el ID
-        $aux = $this->usuarios_model->leer_por_id( $id );
-        //paso datos a vista
         $this->load->view('includes/header');
         if ( $aux ) {
           $data = array( 'usuario' => $aux );
           $this->load->view('pages/usuarios/eliminar', $data);
         } else {
           //El usuario que se busca no es valido
-          $this->load->view('pages/usuarios/usuario_no_encontrado');
+          $this->load->view('pages/usuarios/id_no_valido');
         }
+        $this->load->view('includes/footer');
+      } else {
+        $this->usuario_model->eliminar($aux['id_usuario']);
+                //Me paso el ID
+        $data= ['usuario'=>$aux, 'exito'=>TRUE];
+        $this->load->view('includes/header');
+        $this->load->view('pages/usuarios/eliminar', $data);
         $this->load->view('includes/footer');
       }
     }
