@@ -68,15 +68,21 @@ class Usuarios_model extends CI_Model {
 	public function eliminar($id) {
 		//intval pasa str y char a int
 		$id=intval($id);
-		$fecha_de_despido=new date("Y-m-d H:i:s");
+		$fecha_de_despido= date("Y-m-d H:i:s");
 
-		$this->db->where('id', $id);
+		$this->db->where('id_usuario', $id);
 		$this->db->update('usuarios', array('fecha_fin'=>$fecha_de_despido));
 
 	}
 
 	public function lista() {
 		return $this->db->get('usuarios')->result_array();
+	}
+
+	public function lista_activos(){
+		 $this->db->where('fecha_fin', null);
+		return $this->db->get('usuarios')->result_array();
+
 	}
 
 	public function cotejar( $dni, $contrasenia ) {

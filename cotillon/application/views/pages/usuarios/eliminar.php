@@ -25,7 +25,7 @@ Ud. esta por eliminar un usuario, los datos del mismo persistiran en el sistema 
 <li>Fecha de empleo: <?php echo $usuario['fecha_inicio']  ?></li>
 </ul>
 <?php  echo form_open('usuarios/eliminar/' . $usuario['id_usuario']); ?>
-<input type="imput" class="btn btn-default" name="submit" value="Enviar">
+<input type="submit" class="btn btn-default" name="submit" value="Enviar">
 <?php echo form_close();  ?>
 
 

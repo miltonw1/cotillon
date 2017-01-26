@@ -63,7 +63,7 @@ protected  $config_validacion=null;
       show_404();
     } else {
       //obtenes datos
-      $data = array('usuarios' => $this->usuarios_model->lista(),
+      $data = array('usuarios' => $this->usuarios_model->lista_activos(),
       'id_usuario_logueado'=>$this->session->userdata('id_usuario'),
       'es_admin_usuario_logueado'=>$this->session->userdata('es_admin'));
 
@@ -133,11 +133,13 @@ protected  $config_validacion=null;
   } else {
     //Logeado
     $this->load->view('includes/header');
+
+    $data=array('usuarios'=>$this->usuarios_model->lista_activos(),
+    'mensaje'=>"El usuario que solicito no existe. Seleccione uno por favor");
+
     if ( $id == 0 ) {
       //No me paso un ID
 
-      $data=array('usuarios'=>$this->usuarios_model->lista(),
-                  'mensaje'=>"Esta acción requiere de un usuario válido. Seleccione uno por favor");
 
     } else {
       //Me paso el ID
@@ -149,8 +151,7 @@ protected  $config_validacion=null;
       } else {
 
         //El usuario que se busca no es valido
-        $data=array('usuarios'=>$this->usuarios_model->lista(),
-                    'mensaje'=>"El usuario que solicito no existe. Seleccione uno por favor");
+
 
         $this->load->view('pages/usuarios/id_no_valido', $data);
       }
@@ -251,8 +252,16 @@ protected  $config_validacion=null;
       show_404();
     } else {
       //Logeado
+      $this->form_validation->set_rules('submit', 'Submit', 'required' );
+      $this->form_validation->set_message('required' , 'Es necesario');
+      $this->form_validation->set_error_delimiters('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> ', '</div>');
+
+
       $aux = $this->usuarios_model->leer_por_id( $id );
-      if ($this->form_validation->run()===false) {
+      if ($this->form_validation->run()===false)
+
+
+     {
         //No me paso un ID
         $this->load->view('includes/header');
         if ( $aux ) {
@@ -264,7 +273,7 @@ protected  $config_validacion=null;
         }
         $this->load->view('includes/footer');
       } else {
-        $this->usuario_model->eliminar($aux['id_usuario']);
+        $this->usuarios_model->eliminar($aux['id_usuario']);
                 //Me paso el ID
         $data= ['usuario'=>$aux, 'exito'=>TRUE];
         $this->load->view('includes/header');
