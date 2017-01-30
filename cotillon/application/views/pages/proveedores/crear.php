@@ -5,7 +5,7 @@ echo '
 <div class="alert alert-block alert-success">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
         <h4>Genial!</h4>
-        Se a creado exitosamente el proveedor <strong>'.$proveedor.
+        Se ha creado exitosamente el proveedor <strong>'.$proveedor.
     '</div>';
 }
 echo form_open("/proveedores/crear")?>
@@ -19,7 +19,7 @@ echo form_open("/proveedores/crear")?>
       <label for="localidad">Localidad<?php echo form_error("localidad");?></label>
        <select name="localidad" class="form-control">
          <?php foreach ($localidades as $loc){
-           echo '<option value="'.$loc['id_localidad'].'">'.$loc['nombre_localidad'].'</option>\n';
+           echo "<option value=\"".$loc['id_localidad']."\">".$loc['nombre_localidad']."</option>\n";
        } ?>
        </select>
 

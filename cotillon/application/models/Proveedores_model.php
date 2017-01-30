@@ -28,7 +28,7 @@ class Proveedores_model extends CI_Model {
         // Sanitizar entrada de datos
         $id = intval( $id );
         $this->db->where('id_proveedor', $id);
-        return $this->db->get('proveedores')->result_array();
+        return $this->db->get('proveedores')->row_array();
     }
 
     public function actualizar( $id, $nombre, $contacto, $id_localidad ) {
