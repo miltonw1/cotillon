@@ -93,9 +93,50 @@ public function ver( $id )
       // No esta logeado, mensaje de error
       show_404();
     } else {
+      //Logeado
+      $this->load->view('includes/header');
+
+      $data=array('proveedores'=>$this->proveedores_model->lista(),
+      'mensaje'=>"El proveedor que solicito no existe. Seleccione uno por favor");
+
+    //  public function lista() {
+      //      $this->db->join('localidades', 'localidades.id_localidad = proveedores.id_localidad');
+        //    return $this->db->get('proveedores')->result_array();
+        // }
+
+      if ( $id == 0 ) {
+        //No me paso un ID
+
+
+      } else {
+        //Me paso el ID
+        $aux = $this->proveedores_model->leer( $id );
+        //paso datos a vista
+
+        if ( $aux ) {
+
+        $data = array( 'proveedor' => $aux );
+
+          //  $auxl = $this->localidades_model->$leer($proveedor['id_localidad']);
+            // $locdata =array('localidad' => $auxl);
+
+
+        $this->load->view('pages/proveedores/ver', $data);
+        }
+
+         else {
+
+          //El proveedor que se busca no es valido
+
+
+          $this->load->view('pages/proveedores/id_no_valido', $data);
+        }
+      }
+      $this->load->view('includes/footer');
+    }
 
     }
-  }
+
 
   public function actualizar( $id )
   {
@@ -161,4 +202,5 @@ public function ver( $id )
 
     }
   }
+  
 }

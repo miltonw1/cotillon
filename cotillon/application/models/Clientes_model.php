@@ -19,10 +19,10 @@ $tipo_cliente=htmlentities($tipo_cliente);
     'nombre_cliente'=>$nombre,
     'contacto'=>$contacto,
     'id_localidad'=>$localidad,
-    'tipo_cliente'=>$tipo_cliente.
+    'tipo_cliente'=>$tipo_cliente,
 
 
-  );
+  ) ;
 
   $this->db->insert('clientes', $data);
 }
@@ -45,7 +45,7 @@ $data = array(
   'nombre_cliente'=>$nombre,
   'contacto'=>$contacto,
   'id_localidad'=>$localidad,
-  'tipo_cliente'=>$tipo_cliente.
+  'tipo_cliente'=>$tipo_cliente,
 
 
 );
@@ -67,4 +67,20 @@ public function eliminar($id){
 $this->db->where('id',$id);
 $this->db->delete('clientes');
 return boolval( $this->db->affected_rows() );
+
+
+
+}
+
+public function buscar($campo, $valor){
+	$campo=htmlentities($campo);
+	$valor=intval($valor);
+
+	if ($campo == 'id_localidad' or $campo='nombre_cliente' and $valor>0){
+		$this->db->where($campo,$valor);
+		}
+		return $this->db->get('clientes')->result_array();
+
+}
+
 }

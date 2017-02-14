@@ -138,4 +138,42 @@ class Localidades extends CI_Controller {
       }
 
     }
+    public function ver_clientes($id=0) {
+      if ( ! $this->session->userdata('esta_logeado') ) {
+        // No esta logeado, mensaje de error
+        show_404();
+      } else {
+        $this->load->model('clientes_model');
+        $data=[
+          'localidad' =>$this->localidades_model->leer($id),
+          'clientes' =>$this->clientes_model->buscar('id_localidad',$id),
+        ];
+
+
+        //paso datos a vista
+        $this->load->view('includes/header');
+        $this->load->view('pages/localidades/ver_clientes', $data);
+        $this->load->view('includes/footer');
+      }
+    }
+
+    public function ver_proveedores($id=0) {
+      if ( ! $this->session->userdata('esta_logeado') ) {
+        // No esta logeado, mensaje de error
+        show_404();
+      } else {
+        $this->load->model('proveedores_model');
+        $data=[
+          'localidad'=>$this->localidades_model->leer($id),
+          'proveedores'=>$this->proveedores_model->buscar('id_localidad',$id),
+        ];
+
+
+        //paso datos a vista
+        $this->load->view('includes/header');
+        $this->load->view('pages/localidades/ver_proveedores', $data);
+        $this->load->view('includes/footer');
+      }
+    }
+
   }
