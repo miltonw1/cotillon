@@ -16,12 +16,12 @@ class Productos_model extends CI_Model {
     $descripcion=htmlentities($descripcion);
 
 
-$data=array("id_proveedor"=>$id_proveedor
+$data=array("id_proveedor"=>$id_proveedor,
             "id_categoria"=>$categoria,
             "descripcion"=>$descripcion,
-              "precio"=>$precio)
+              "precio"=>$precio );
 
-    $this->db->insert('productos',$data)
+    $this->db->insert('productos',$data);
   }
 
   public function leer($id){
@@ -29,7 +29,9 @@ $data=array("id_proveedor"=>$id_proveedor
   }
 
   public function lista(){
-      return $this->db->get('productos')->result_array();
+		$this->db->join('proveedores', 'proveedores.id_proveedor = productos.id_proveedor');
+    $this->db->join('categorias_producto', 'categorias_producto.id_categoria = productos.id_categoria');
+    return $this->db->get('productos')->result_array();
   }
 
   public function actualizar($id,$precio,$id_proveedor,$categoria,$descripcion){
@@ -44,7 +46,7 @@ $data=array("id_proveedor"=>$id_proveedor
     $data=array("id_proveedor"=>$id_proveedor,
                 "id_categoria"=>$categoria,
                 "descripcion"=>$descripcion,
-                "precio"=>$precio)
+                "precio"=>$precio);
 $this->db->where('id',$id);
 $this->db->update('productos',$data);
 return boolval( $this->db->affected_rows() );
@@ -58,3 +60,4 @@ return boolval( $this->db->affected_rows() );
       return boolval( $this->db->affected_rows() );
 
   }
+}

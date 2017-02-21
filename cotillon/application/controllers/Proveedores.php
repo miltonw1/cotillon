@@ -199,8 +199,8 @@ public function ver( $id )
       // No esta logeado, mensaje de error
       show_404();
     } else {
-
+      redirect('/proveedores', 'refresh');
     }
   }
-  
+
 }
