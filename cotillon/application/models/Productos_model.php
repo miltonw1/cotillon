@@ -9,14 +9,15 @@ class Productos_model extends CI_Model {
 	}
 
   public function crear($nombre,$precio,$id_proveedor,$categoria,$descripcion){
-
+		$nombre=htmlentities($nombre);
     $precio=floatval($precio);
     $id_proveedor=htmlentities($id_proveedor);
     $categoria=htmlentities($categoria);
     $descripcion=htmlentities($descripcion);
 
 
-$data=array("id_proveedor"=>$id_proveedor,
+$data=array("nombre"=>$nombre,
+						"id_proveedor"=>$id_proveedor,
             "id_categoria"=>$categoria,
             "descripcion"=>$descripcion,
               "precio"=>$precio );
