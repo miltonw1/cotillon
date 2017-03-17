@@ -20,7 +20,7 @@ class Productos extends CI_Controller
               ], [
                 'field' => 'nombre',
                 'label' => 'Nombre del producto',
-                'rules' => 'required|alpha_numeric_spaces'
+                'rules' => 'required'
               ], [
                 'field' => 'precio',
                 'label' => 'Precio',
@@ -32,10 +32,10 @@ class Productos extends CI_Controller
               ], [
                 'field' => 'descripcion',
                 'label' => 'Descripción',
-                'rules' => 'required|alpha_numeric_spaces'
+                'rules' => ''
               ]
             ];
-            $this->mensajes_validacion = [
+            $this->mensaje_validacion = [
               'required' => "<strong>%s</strong> es un campo obligatorio.",
               'alpha_numeric_spaces' => "<strong>%s</strong> solo admite caracteres alfabéticos.",
               'is_natural_no_zero' => "<strong>%s</strong> no puede ser procesado correctamente.",
@@ -76,10 +76,36 @@ else{
   $this->form_validation->set_message($key,$value);
   }
   $this->form_validation->set_error_delimiters($this->error_delimiter[0],$this->error_delimiter[1]);
+  $this->load->model('proveedores_model');
+  $this->load->model('categorias_producto_model');
+  $data = [
+  'proveedores'=> $this->proveedores_model->lista(),
+  'categorias'=> $this->categorias_producto_model->lista()];
+  if ($this->form_validation->run() == false){
+    $this->load->view('includes/header');
+    $this->load->view('pages/productos/crear', $data );
+    $this->load->view('includes/footer');
+  }
+  else {
+       $this->productos_model->crear(
+       $this->security->xss_clean( $this->input->post('nombre')),
+       $this->security->xss_clean( $this->input->post('precio')),
+       $this->security->xss_clean( $this->input->post('id_proveedor')),
+       $this->security->xss_clean( $this->input->post('id_categoria')),
+       $this->security->xss_clean( $this->input->post('descripcion'))
+     );
+
+     $data['exito']=TRUE;
+     $data['producto']= htmlentities($this->input->post('nombre'));
+
+     $this->load->view('includes/header');
+     $this->load->view('pages/productos/crear', $data );
+     $this->load->view('includes/footer');
+     }
 }}
 
 
-  public function actualizar(){
+  public function actualizar($id){
     if ( ! $this->session->userdata('esta_logeado') and $this->session->userdata('es_admin') ) {
       // No esta logeado, mensaje de error
       show_404();
@@ -90,20 +116,53 @@ else{
   $this->form_validation->set_message($key,$value);
   }
   $this->form_validation->set_error_delimiters($this->error_delimiter[0],$this->error_delimiter[1]);
+  $this->load->model('proveedores_model');
+  $this->load->model('categorias_producto_model');
+  $data = [
+  'proveedores'=> $this->proveedores_model->lista(),
+  'categorias'=> $this->categorias_producto_model->lista(),
+  'producto'=>$this->productos_model->leer($id),
+];
+  if ($this->form_validation->run() == false){
+    $this->load->view('includes/header');
+    $this->load->view('pages/productos/actualizar', $data );
+    $this->load->view('includes/footer');
+  }
+  else {
+       $this->productos_model->actualizar(
+       $id,
+       $this->security->xss_clean( $this->input->post('id_proveedor')),
+       $this->security->xss_clean( $this->input->post('nombre')),
+       $this->security->xss_clean( $this->input->post('precio')),
+       $this->security->xss_clean( $this->input->post('id_categoria')),
+       $this->security->xss_clean( $this->input->post('descripcion'))
+     );
+
+     $data['exito']=TRUE;
+     $data['producto']['nombre']= htmlentities($this->input->post('nombre'));
+
+     $this->load->view('includes/header');
+     $this->load->view('pages/productos/actualizar', $data );
+     $this->load->view('includes/footer');
+     }
   }
 
 }
 
 
-  public function ver(){
-    if ( ! $this->session->userdata('esta_logeado') ) {
-      // No esta logeado, mensaje de error
-      show_404();
-    }
-else{
-
+public function ver( $id )
+{
+ if ( ! $this->session->userdata('esta_logeado') ) {
+   show_404();
+ } else {
+   $data = [
+     'producto' => $this->productos_model->leer($id)
+   ];
+   $this->load->view('includes/header');
+   $this->load->view('pages/productos/ver', $data);
+   $this->load->view('includes/footer');
+ }
 }
-  }
 
   public function eliminar(){
     if ( ! $this->session->userdata('esta_logeado') and $this->session->userdata('es_admin') ) {
@@ -111,6 +170,6 @@ else{
       show_404();
     }
 else{
-
+redirect('/proveedores', 'refresh');
 }
   }}
