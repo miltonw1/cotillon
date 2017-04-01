@@ -109,6 +109,7 @@ else{
     if ( ! $this->session->userdata('esta_logeado') and $this->session->userdata('es_admin') ) {
       // No esta logeado, mensaje de error
       show_404();
+
     }
 else{
   $this->form_validation->set_rules($this->config_validacion);
@@ -131,15 +132,19 @@ else{
   else {
        $this->productos_model->actualizar(
        $id,
-       $this->security->xss_clean( $this->input->post('id_proveedor')),
        $this->security->xss_clean( $this->input->post('nombre')),
        $this->security->xss_clean( $this->input->post('precio')),
+       $this->security->xss_clean( $this->input->post('id_proveedor')),
        $this->security->xss_clean( $this->input->post('id_categoria')),
        $this->security->xss_clean( $this->input->post('descripcion'))
      );
 
      $data['exito']=TRUE;
-     $data['producto']['nombre']= htmlentities($this->input->post('nombre'));
+     $data['producto']['nombre'] = htmlentities( $this->input->post('nombre'));
+       $data['producto']['precio'] = floatval( $this->input->post('precio'));
+       $data['producto']['id_proveedor'] = intval( $this->input->post('id_proveedor'));
+       $data['producto']['id_categoria'] = intval( $this->input->post('id_categoria'));
+       $data['producto']['descripcion'] = htmlentities( $this->input->post('descripcion'));
 
      $this->load->view('includes/header');
      $this->load->view('pages/productos/actualizar', $data );

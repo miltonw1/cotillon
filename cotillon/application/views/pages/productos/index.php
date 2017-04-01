@@ -20,6 +20,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php
             foreach($productos as $prod):  ?>
                 <tr>
+                  <td>
+                      <?php echo $prod['id_producto']; ?> </td>
+
                     <td>
                         <?php echo $prod['nombre']; ?> </td>
                     <td>
@@ -29,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <td>
                         <?php echo $prod['precio']; ?> </td>
                     <td>
-                        <?php echo $prod['descripciones']; ?> </td>
+                        <?php echo $prod['descripcion']; ?> </td>
                     <td>
 
                         <a href="<?php echo base_url("productos/ver/".$prod['id_producto'] ); ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>

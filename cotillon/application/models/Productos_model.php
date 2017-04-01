@@ -26,7 +26,11 @@ $data=array("nombre"=>$nombre,
   }
 
   public function leer($id){
-      $id=intval($id);
+		$id = intval( $id );
+
+		$this->db->where('id_producto', $id);
+		$this->db->get('productos');
+		return $this->db->get('productos')->row_array();
   }
 
   public function lista(){
@@ -35,9 +39,10 @@ $data=array("nombre"=>$nombre,
     return $this->db->get('productos')->result_array();
   }
 
-  public function actualizar($id,$precio,$id_proveedor,$categoria,$descripcion){
+  public function actualizar($id,$nombre,$precio,$id_proveedor,$categoria,$descripcion){
     $id=intval($id);
-    $precio=floatval($precio);
+		$nombre=htmlentities($nombre);
+		$precio=floatval($precio);
     $id_proveedor=htmlentities($id_proveedor);
     $categoria=htmlentities($categoria);
     $descripcion=htmlentities($descripcion);
@@ -48,7 +53,7 @@ $data=array("nombre"=>$nombre,
                 "id_categoria"=>$categoria,
                 "descripcion"=>$descripcion,
                 "precio"=>$precio);
-$this->db->where('id',$id);
+$this->db->where('id_producto',$id);
 $this->db->update('productos',$data);
 return boolval( $this->db->affected_rows() );
   }
