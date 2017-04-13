@@ -2,6 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <h2 class="text-center">Categorías</h2>
+
+<div class="row">
+ <a href="<?php echo base_url('/categorias/crear');?>" class="btn btn-primary pull-right" title="Agregar una nueva categoria"><i class="fa fa-plus"></i></a>
+</div>
+
 <hr>
     <table class="table table-striped">
 
@@ -14,6 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                    <th>Opciones</th>
 
               </thead>
+
             </tbody>
             <?php
             foreach($categorias as $cat):  ?>

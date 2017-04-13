@@ -36,7 +36,8 @@ $data=array("nombre"=>$nombre,
   public function lista(){
 		$this->db->join('proveedores', 'proveedores.id_proveedor = productos.id_proveedor');
     $this->db->join('categorias_producto', 'categorias_producto.id_categoria = productos.id_categoria');
-    return $this->db->get('productos')->result_array();
+		$this->db->where('soft_delete', null);
+	  return $this->db->get('productos')->result_array();
   }
 
   public function actualizar($id,$nombre,$precio,$id_proveedor,$categoria,$descripcion){
@@ -61,8 +62,10 @@ return boolval( $this->db->affected_rows() );
 
   public function eliminar($id){
       $id=intval($id);
-      $this->db->where('id',$id);
-      $this->db->delete('productos');
+      $this->db->where('id_producto',$id);
+			$data=[];
+			$data['soft_delete']= date('Y-m-d H:i:s');
+      $this->db->update('productos', $data );
       return boolval( $this->db->affected_rows() );
 
   }

@@ -2,6 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <h2 class="text-center">Usuarios</h2>
+<div class="row">
+ <a href="<?php echo base_url('/usuarios/crear');?>" class="btn btn-primary pull-right" title="Agregar un nuevo producto"><i class="fa fa-plus"></i></a>
+</div>
 <hr>
     <table class="table table-striped">
 

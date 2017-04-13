@@ -2,6 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <h2 class="text-center">Proveedores</h2>
+<div class="row">
+ <a href="<?php echo base_url('/proveedores/crear');?>" class="btn btn-primary pull-right" title="Agregar un nuevo proveedor"><i class="fa fa-plus"></i></a>
+</div>
 <hr>
     <table class="table table-striped">
 
@@ -12,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <th>Localidad</th>
                     <th>Contacto</th>
 
-                      <th>Opciones</th> 
+                      <th>Opciones</th>
 
               </thead>
             </tbody>

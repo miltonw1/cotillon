@@ -169,12 +169,13 @@ public function ver( $id )
  }
 }
 
-  public function eliminar(){
+  public function eliminar($id){
     if ( ! $this->session->userdata('esta_logeado') and $this->session->userdata('es_admin') ) {
       // No esta logeado, mensaje de error
       show_404();
     }
 else{
-redirect('/proveedores', 'refresh');
+$this->productos_model->eliminar($id);
+redirect('/productos', 'refresh');
 }
   }}
