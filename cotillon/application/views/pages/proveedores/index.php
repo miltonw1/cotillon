@@ -38,13 +38,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
                     <td>
-
-                        <a href="<?php echo base_url("proveedores/ver/".$prov['id_proveedor'] ); ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                        <div class=btn-group>
+                        <a class="btn btn-primary" href="<?php echo base_url("proveedores/ver/".$prov['id_proveedor'] ); ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
                         <?php if($es_admin_usuario_logueado): ?>
-                        <a href="<?php echo base_url("proveedores/actualizar/".$prov['id_proveedor'] ); ?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-
-                        <?php endif; ?>
-                    </td>
+                        <a class="btn btn-primary" href="<?php echo base_url("proveedores/actualizar/".$prov['id_proveedor'] ); ?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                       <?php endif; ?>
+                     </div>
+                        </td>
                 </tr>
                 <?php    endforeach;  ?>
     </table>

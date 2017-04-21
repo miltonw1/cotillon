@@ -13,8 +13,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php
             foreach($productos as $prod):  ?>
                 <tr>
-                    <td><a href="<?php base_url('productos/ver/'.$productos['id_producto'])?>" >
-                        <?php echo $prod['nombre_producto']; ?> </td>
+                    <td><a href="<?php base_url('productos/ver/'.$prod['id_producto'])?>" >
+                        <?php echo $prod['nombre']; ?> </td>
                     </td>
                 </tr>
                 <?php    endforeach;  ?>

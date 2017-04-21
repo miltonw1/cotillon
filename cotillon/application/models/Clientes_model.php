@@ -1,86 +1,87 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
 class Clientes_model extends CI_Model {
 
 	public function __construct() {
 		parent::__construct();
 	}
 
-public function crear($nombre, $contacto, $localidad, $tipo_cliente){
-//sanitizacion
-$nombre=htmlentities($nombre);
-$contacto=htmlentities($contacto);
-$localidad=intval($localidad);
-$tipo_cliente=htmlentities($tipo_cliente);
+	public function crear( $nombre, $contacto, $id_localidad, $tipo_cliente ) {
+		// Sanitizar entrada de datos
+		$nombre = htmlentities( $nombre );
+		$contacto = htmlentities( $contacto );
+		$id_localidad = intval( $id_localidad );
+		$tipo_cliente = htmlentities( $tipo_cliente );
 
-  $data = array(
-    'nombre_cliente'=>$nombre,
-    'contacto'=>$contacto,
-    'id_localidad'=>$localidad,
-    'tipo_cliente'=>$tipo_cliente,
+		// Arreglo de datos
+		$data = [
+			'nombre_cliente' => $nombre,
+			'contacto' => $contacto,
+			'id_localidad' => $id_localidad,
+			'tipo_cliente' => $tipo_cliente
+		];
 
+		// Ejecutar consulta
+		$this->db->insert( 'clientes', $data );
+	}
 
-  ) ;
+	public function leer( $id ) {
+		// Sanitizar entrada de datos
+		$id = intval( $id );
+		$this->db->where('id_cliente', $id);
+		return $this->db->get('clientes')->row_array();
+	}
 
-  $this->db->insert('clientes', $data);
-}
+	public function actualizar( $id, $nombre, $contacto, $id_localidad, $tipo_cliente  ) {
+		// Sanitizar entrada de datos
+		$id = intval( $id );
+		$nombre = htmlentities( $nombre );
+		$contacto = htmlentities( $contacto );
+		$id_localidad = intval( $id_localidad );
+		$tipo_cliente = htmlentities( $tipo_cliente );
 
-public function leer($id){
-  $id=intval($id);
-$this->db->where('id',$id);
-return $this->db->get(clientes)->result_array();
-}
+		// Arreglo de datos
+		$data = [
+			'nombre_cliente' => $nombre,
+			'contacto' => $contacto,
+			'id_localidad' => $id_localidad,
+			'tipo_cliente' => $tipo_cliente
+		];
 
-public function actualizar($id){
-// sanitizacion
-$id=intval($id);
-$nombre=htmlentities($nombre);
-$contacto=htmlentities($contacto);
-$localidad=intval($localidad);
-$tipo_cliente=htmlentities($tipo_cliente);
+		// Ejecutar consulta
+		$this->db->where( 'id_cliente', $id );
+		$this->db->update( 'clientes', $data );
+		return boolval( $this->db->affected_rows() );
+	}
 
-$data = array(
-  'nombre_cliente'=>$nombre,
-  'contacto'=>$contacto,
-  'id_localidad'=>$localidad,
-  'tipo_cliente'=>$tipo_cliente,
+	public function eliminar( $id ) {
+		// Sanitizar entrada de datos
+		$id = intval( $id );
 
+		$this->db->where('id_cliente', $id);
+		$this->db->delete('clientes');
 
-);
-$this->db->where('id', $id);
-$this->db->update('clientes', $data);
-return boolval( $this->db->affected_rows() );
-}
+		return boolval( $this->db->affected_rows() );
+	}
 
+	public function lista() {
+		$this->db->join('localidades', 'localidades.id_localidad = clientes.id_localidad');
+		return $this->db->get('clientes')->result_array();
+	}
 
-public function lista(){
-  return $this->db->get('clientes')->result_array();
+	public function buscar( $campo, $valor ) {
+		// 'id_localidad' // 1
 
-}
+		// www.example.com/localidades/ver_clientes/1
+		// www.example.com/clientes?id_localidad=1 (index de cliente)
 
-
-public function eliminar($id){
-  $id=intval($id);
-
-$this->db->where('id',$id);
-$this->db->delete('clientes');
-return boolval( $this->db->affected_rows() );
-
-
-
-}
-
-public function buscar($campo, $valor){
-	$campo=htmlentities($campo);
-	$valor=intval($valor);
-
-	if ($campo == 'id_localidad' or $campo='nombre_cliente' and $valor>0){
-		$this->db->where($campo,$valor);
+		// www.../clientes?tipo_cliente=1 (index de cliente)
+		$campo = htmlentities($campo);
+		$valor = intval($valor);
+		if ( $campo === 'id_localidad' or $campo === 'tipo_cliente' and $valor > 0 ) {
+			$this->db->where($campo, $valor);
 		}
 		return $this->db->get('clientes')->result_array();
-
-}
-
+	}
 }

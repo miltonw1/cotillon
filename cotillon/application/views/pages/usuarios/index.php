@@ -38,11 +38,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     <td>
                         <?php if($es_admin_usuario_logueado): ?>
-                        <a href="<?php echo base_url("usuarios/ver/".$user['id_usuario'] ); ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
-
-                        <a href="<?php echo base_url("usuarios/actualizar/".$user['id_usuario'] ); ?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        <a href="<?php echo base_url("usuarios/eliminar/".$user['id_usuario'] ); ?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        <div class=btn-group>
+                        <a class="btn btn-primary"  href="<?php echo base_url("usuarios/ver/".$user['id_usuario'] ); ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary"  href="<?php echo base_url("usuarios/actualizar/".$user['id_usuario'] ); ?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary"  href="<?php echo base_url("usuarios/eliminar/".$user['id_usuario'] ); ?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
                       <?php endif; ?>
+                    </div>
                     </td>
                 </tr>
                 <?php    endforeach;  ?>

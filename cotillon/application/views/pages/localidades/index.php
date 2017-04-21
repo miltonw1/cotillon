@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
                     <td>
-
+                      
                       <a href="<?php echo base_url("localidades/ver_clientes/".$loc['id_localidad']); ?>" class="btn btn-primary" title="Ver los clientes correspondientes a esta localidad">Clientes <i class="fa fa-address-book" aria-hidden="true"></i></a>
                       <a href="<?php echo base_url("localidades/ver_proveedores/".$loc['id_localidad']); ?>" class="btn btn-primary" title="Ver los proveedores correspondientes a esta localidad">Proveedores <i class="fa fa-id-card" aria-hidden="true"></i></a>
                       <?php if( $es_admin_usuario_logueado ): ?>

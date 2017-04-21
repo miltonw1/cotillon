@@ -37,13 +37,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <td>
                         <?php echo $prod['descripcion']; ?> </td>
                     <td>
-
-                        <a href="<?php echo base_url("productos/ver/".$prod['id_producto'] ); ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                        <div class=btn-group>
+                        <a class="btn btn-primary" href="<?php echo base_url("productos/ver/".$prod['id_producto'] ); ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
                         <?php if($es_admin_usuario_logueado): ?>
-                        <a href="<?php echo base_url("productos/actualizar/".$prod['id_producto'] ); ?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        <button type="button" data-toggle="modal" data-target="#modal-eliminar-<?php echo $prod['id_producto']; ?>"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        <a class="btn btn-primary" href="<?php echo base_url("productos/actualizar/".$prod['id_producto'] ); ?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-eliminar-<?php echo $prod['id_producto']; ?>"><i class="fa fa-trash" aria-hidden="true"></i></button>
 
                         <?php endif; ?>
+                      </div>
                     </td>
                 </tr>
                 <?php    endforeach;  ?>
