@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Categorias extends CI_Controller {
-  protected  $config_validacion=null;
+  protected  $config_validacion = null;
 
   public function __construct() {
 
@@ -13,7 +13,7 @@ class Categorias extends CI_Controller {
     $this->config_validacion = [
       [
         'field' => 'nombre_categoria',
-        'label' => 'Nombre de categoria',
+        'label' => 'Nombre de categoría',
         'rules' => 'required|alpha_numeric_spaces']
       ];
 
@@ -24,10 +24,11 @@ class Categorias extends CI_Controller {
         // No esta logeado, mensaje de error
         show_404();
       } else {
-        $data = array ('categorias'=>$this->Categorias_producto_model->lista(),
-        'id_usuario_logueado'=>$this->session->userdata('id_usuario'),
-        'es_admin_usuario_logueado'=>$this->session->userdata('es_admin'));
-
+        $data = [
+          'categorias' => $this->Categorias_producto_model->lista(),
+          'id_usuario_logueado' => $this->session->userdata('id_usuario'),
+          'es_admin_usuario_logueado' => $this->session->userdata('es_admin')
+        ];
 
         //paso datos a vista
         $this->load->view('includes/header');
@@ -36,56 +37,41 @@ class Categorias extends CI_Controller {
       }
     }
 
-
     public function crear(){
       if ( ! $this->session->userdata('esta_logeado') && $this->session->userdata('es_admin') ) {
         // No esta logeado, mensaje de error
         show_404();
-      }
-
-      else {// esta logeado
-
+      } else {// esta logeado
 
         $this->form_validation->set_rules($this->config_validacion);
         //mesajes de validaciones
         $this->form_validation->set_message('required', "<strong>%s</strong> es un campo obligatorio. " );
         $this->form_validation->set_message('alpha_numeric_spaces', "<strong>%s</strong> solo se admite caracteres alfabéticos." );
 
-
-
-
         //delimitadores de errores
         $this->form_validation->set_error_delimiters('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> ', '</div>');
 
+        $data = [ 'categorias' => $this->Categorias_producto_model->lista() ];
 
-        $data=[
-          'categorias' => $this->Categorias_producto_model->lista()
-        ];
         if ( $this->form_validation->run() === FALSE ) {
           //llego por primera vez
           $this->load->view('includes/header');
-          $this->load->view('pages/categorias/crear' , $data );
+          $this->load->view('pages/categorias/crear', $data );
           $this->load->view('includes/footer');
-        }
-        else {
+        } else {
           // Envié el formulario
           $this->Categorias_producto_model->crear(
-
             $this->security->xss_clean( $this->input->post('nombre_categoria') )
           );
 
-          $data['exito']=TRUE;
-          $data['categoria']=htmlentities($this->input->post('nombre_categoria'));
-
+          $data['exito'] = TRUE;
+          $data['categoria'] = htmlentities( $this->input->post('nombre_categoria') );
 
           $this->load->view('includes/header');
           $this->load->view('pages/categorias/crear', $data);
           $this->load->view('includes/footer');
-
-
         }
       }
-
     }
 
     public function actualizar( $id ) {
@@ -123,20 +109,22 @@ class Categorias extends CI_Controller {
           $this->load->view('pages/categorias/actualizar', $data);
           $this->load->view('includes/footer');
         }
-
       }
     }
 
-public function productos_correspondientes($id){
-$id=intval($id);
+    public function eliminar( $id = 0 ) {
+      if ( ! $this->session->userdata('esta_logeado') && $this->session->userdata('es_admin') ) {
+        // No esta logeado y es admin, mensaje de error
+        show_404();
+      } else {
+        if ( $id !== 0 ) {
+          $this->Categorias_producto_model->eliminar( $id );
+        }
+        redirect( base_url('/categorias'), 'refresh' );
+      }
+    }
 
-  $this->db->where('id_categoria', $id);
-  return $this->db->get('productos')->result_array();
-
-
-}
-
-public function ver_productos( $id ) {
+    public function ver_productos( $id ) {
       if ( ! $this->session->userdata('esta_logeado') ) {
         // No esta logeado, mensaje de error
         show_404();
@@ -152,5 +140,4 @@ public function ver_productos( $id ) {
         $this->load->view('includes/footer');
       }
     }
-
   }

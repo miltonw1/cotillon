@@ -9,3 +9,4 @@ bitnami.css
 cotillon.rar
 favicon.ico
 dashboard
+cotillon/application/logs/log-*

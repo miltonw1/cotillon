@@ -45,104 +45,62 @@ class Proveedores extends CI_Controller
   }
 
   public function crear()
-{
-  if ( ! $this->session->userdata('esta_logeado') && $this->session->userdata('es_admin') ) {
-    // No esta logeado, mensaje de error
-    show_404();
-  } else {
-    $this->form_validation->set_rules($this->config_validacion);
-
-    //mensajes de validaciones
-    $this->form_validation->set_message('required', "<strong>%s</strong> es un campo obligatorio.");
-    $this->form_validation->set_message('alpha_numeric_spaces', "<strong>%s</strong> solo admite caracteres alfabéticos.");
-    $this->form_validation->set_message('numeric', "<strong>%s</strong> es un campo unicamente numérico.");
-    $this->form_validation->set_error_delimiters('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>', '</div>');
-
-    $this->load->model('localidades_model');
-    $data = [
-      'localidades' => $this->localidades_model->lista()
-    ];
-
-    if ( $this->form_validation->run() === FALSE ) {
-      $this->load->view('includes/header');
-      $this->load->view('pages/proveedores/crear', $data);
-      $this->load->view('includes/footer');
+  {
+    if ( ! $this->session->userdata('esta_logeado') && $this->session->userdata('es_admin') ) {
+      // No esta logeado, mensaje de error
+      show_404();
     } else {
+      $this->form_validation->set_rules($this->config_validacion);
 
-      $this->proveedores_model->crear(
-        $this->security->xss_clean( $this->input->post('nombre_proveedor')),
-        $this->security->xss_clean( $this->input->post('contacto')),
-        $this->security->xss_clean( $this->input->post('localidad'))
-      );
+      //mensajes de validaciones
+      $this->form_validation->set_message('required', "<strong>%s</strong> es un campo obligatorio.");
+      $this->form_validation->set_message('alpha_numeric_spaces', "<strong>%s</strong> solo admite caracteres alfabéticos.");
+      $this->form_validation->set_message('numeric', "<strong>%s</strong> es un campo unicamente numérico.");
+      $this->form_validation->set_error_delimiters('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>', '</div>');
 
-      $data['exito'] = TRUE;
-      $data['proveedor'] = htmlentities($this->input->post('nombre_proveedor'));
+      $this->load->model('localidades_model');
+      $data = [
+        'localidades' => $this->localidades_model->lista()
+      ];
+
+      if ( $this->form_validation->run() === FALSE ) {
+        $this->load->view('includes/header');
+        $this->load->view('pages/proveedores/crear', $data);
+        $this->load->view('includes/footer');
+      } else {
+
+        $this->proveedores_model->crear(
+          $this->security->xss_clean( $this->input->post('nombre_proveedor')),
+          $this->security->xss_clean( $this->input->post('contacto')),
+          $this->security->xss_clean( $this->input->post('localidad'))
+        );
+
+        $data['exito'] = TRUE;
+        $data['proveedor'] = htmlentities($this->input->post('nombre_proveedor'));
 
 
-      $this->load->view('includes/header');
-              $this->load->view('pages/proveedores/crear', $data);
-              $this->load->view('includes/footer');
+        $this->load->view('includes/header');
+				$this->load->view('pages/proveedores/crear', $data);
+				$this->load->view('includes/footer');
+      }
+
     }
-
   }
-}
 
-public function ver( $id )
+  public function ver( $id )
   {
     if ( ! $this->session->userdata('esta_logeado') ) {
       // No esta logeado, mensaje de error
       show_404();
     } else {
-      //Logeado
-      $this->load->view('includes/header');
-
-      $data=array('proveedores'=>$this->proveedores_model->lista(),
-      'mensaje'=>"El proveedor que solicito no existe. Seleccione uno por favor");
-
-    //  public function lista() {
-      //      $this->db->join('localidades', 'localidades.id_localidad = proveedores.id_localidad');
-        //    return $this->db->get('proveedores')->result_array();
-        // }
-
-      if ( $id == 0 ) {
-        //No me paso un ID
-
-
-      } else {
-        //Me paso el ID
-        $aux = $this->proveedores_model->leer( $id );
-        //paso datos a vista
-
-        if ( $aux ) {
-
-        $data = array( 'proveedor' => $aux );
-
-          //  $auxl = $this->localidades_model->$leer($proveedor['id_localidad']);
-            // $locdata =array('localidad' => $auxl);
-
-
-        $this->load->view('pages/proveedores/ver', $data);
-        }
-
-         else {
-
-          //El proveedor que se busca no es valido
-
-
-          $this->load->view('pages/proveedores/id_no_valido', $data);
-        }
-      }
-      $this->load->view('includes/footer');
-    }
 
     }
-
+  }
 
   public function actualizar( $id )
   {
-    if ( ! $this->session->userdata('esta_logeado') ) {
+    if ( ! $this->session->userdata('esta_logeado') && $this->session->userdata('es_admin') ) {
       // No esta logeado, mensaje de error
-
       show_404();
     } else {
       $this->form_validation->set_rules($this->config_validacion);
@@ -156,44 +114,35 @@ public function ver( $id )
       $this->load->model('localidades_model');
       $data = [
         'localidades' => $this->localidades_model->lista(),
-        'proveedor' =>$this->proveedores_model->leer($id) ];
-      if ( $this->form_validation->run() === FALSE ){
+        'proveedor' => $this->proveedores_model->leer($id)
+      ];
 
-      $this->load->view('includes/header');
-      $this->load->view('pages/proveedores/actualizar', $data);
-      $this->load->view('includes/footer');
-    }
+      if ( $this->form_validation->run() === FALSE ) {
+        $this->load->view('includes/header');
+        $this->load->view('pages/proveedores/actualizar', $data);
+        $this->load->view('includes/footer');
+      } else {
 
-
-      else {
-
-        $data['proveedor']['id_proveedor']=$this->security->xss_clean($id);
-        $data['proveedor']['nombre_proveedor']= $this->security->xss_clean( $this->input->post('nombre_proveedor'));
-        $data['proveedor']['contacto']=$this->security->xss_clean( $this->input->post('contacto'));
-        $data['proveedor']['id_localidad']=  $this->security->xss_clean( $this->input->post('localidad')) ;
+        $data['proveedor']['id_proveedor'] = $this->security->xss_clean( $id );
+        $data['proveedor']['nombre_proveedor'] = $this->security->xss_clean( $this->input->post('nombre_proveedor'));
+        $data['proveedor']['contacto'] = $this->security->xss_clean( $this->input->post('contacto'));
+        $data['proveedor']['id_localidad'] = $this->security->xss_clean( $this->input->post('localidad'));
 
         $data['exito'] = $this->proveedores_model->actualizar(
           $data['proveedor']['id_proveedor'],
           $data['proveedor']['nombre_proveedor'],
           $data['proveedor']['contacto'],
           $data['proveedor']['id_localidad']
-
         );
 
-
-
-
-
-                $this->load->view('includes/header');
-                $this->load->view('pages/proveedores/actualizar', $data);
-                $this->load->view('includes/footer');
-
+        $this->load->view('includes/header');
+        $this->load->view('pages/proveedores/actualizar', $data);
+        $this->load->view('includes/footer');
       }
     }
-
   }
 
-  public function eliminar( $id )
+  public function eliminar( $id = 0 )
   {
     if ( ! $this->session->userdata('esta_logeado') ) {
       // No esta logeado, mensaje de error
@@ -202,5 +151,4 @@ public function ver( $id )
       redirect('/proveedores', 'refresh');
     }
   }
-
 }

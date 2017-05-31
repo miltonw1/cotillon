@@ -30,27 +30,25 @@ class Usuarios_model extends CI_Model {
 		$this->db->insert( 'usuarios', $data );
 	}
 
-	public function leer_por_id($id) {
-		$id=intval($id);
-		return $this->db->get_where('usuarios', array('id_usuario'=>$id))->row_array();
-
+	public function leer_por_id( $id ) {
+		$id = intval($id);
+		return $this->db->get_where('usuarios', array('id_usuario' => $id))->row_array();
 	}
 
-	public function leer_por_dni($dni) {
-		$dni=intval($dni);
-		return $this->db->get_where('usuarios', array('id_usuario'=>$id))->row_array();
-
+	public function leer_por_dni( $dni ) {
+		$dni = intval($dni);
+		return $this->db->get_where('usuarios', array('dni' => $dni))->row_array();
 	}
-
-
 
 	public function actualizar($id ,$nombre, $apellido, $email, $dni, $es_admin ) {
-		$id=intval($id);
+		//sanitizacion de datos
+		$id = intval($id);
 		$nombre = htmlentities($nombre);
 		$apellido = htmlentities($apellido);
 		$email = htmlentities($email);
 		$dni = intval($dni);
 		$es_admin = boolval($es_admin);
+
 		//creo arreglo de datos
 		$data = array(
 				'nombre' => $nombre,
@@ -60,29 +58,29 @@ class Usuarios_model extends CI_Model {
 				'es_admin' => $es_admin
 		);
 
+		//consultas
 		$this->db->where('id_usuario', $id);
-    $this->db->update('usuarios', $data);
-
+		$this->db->update('usuarios', $data);
+		return boolval( $this->db->affected_rows() );
 	}
 
-	public function eliminar($id) {
-		//intval pasa str y char a int
-		$id=intval($id);
-		$fecha_de_despido= date("Y-m-d H:i:s");
+	public function eliminar( $id ) {
+		//sanitizacion de datos
+		$id = intval($id);
+		$fecha_de_despido = date("Y-m-d H:i:s");
 
 		$this->db->where('id_usuario', $id);
-		$this->db->update('usuarios', array('fecha_fin'=>$fecha_de_despido));
-
+		$this->db->update('usuarios', array('fecha_fin' => $fecha_de_despido));
 	}
 
 	public function lista() {
 		return $this->db->get('usuarios')->result_array();
 	}
 
-	public function lista_activos(){
-		 $this->db->where('fecha_fin', null);
+	public function lista_activos()
+	{
+		$this->db->where('fecha_fin', null);
 		return $this->db->get('usuarios')->result_array();
-
 	}
 
 	public function cotejar( $dni, $contrasenia ) {

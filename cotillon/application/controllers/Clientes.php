@@ -15,8 +15,8 @@ class Clientes extends CI_Controller {
         'label' => 'Nombre del cliente',
         'rules' => 'required|alpha_numeric_spaces'
       ], [
-        'field' => 'contacto',
-        'label' => 'Contacto del cliente',
+        'field' => 'telefono',
+        'label' => 'Teléfono del cliente',
         'rules' => ''
       ], [
         'field' => 'tipo_cliente',
@@ -26,6 +26,14 @@ class Clientes extends CI_Controller {
         'field' => 'id_localidad',
         'label' => 'Localidad',
         'rules' => 'required|is_natural_no_zero'
+      ], [
+        'field' => 'direccion',
+        'label' => 'Dirección',
+        'rules' => ''
+      ], [
+        'field' => 'email',
+        'label' => 'Correo Electrónico',
+        'rules' => 'valid_email'
       ]
     ];
 
@@ -33,7 +41,8 @@ class Clientes extends CI_Controller {
     $this->mensajes_validacion = [
       'required' => '<strong>%s</strong> es un campo obligatorio.',
       'alpha_numeric_spaces' => '<strong>%s</strong> solo admite caracteres alfabéticos.',
-      'is_natural_no_zero' => '<strong>%s</strong> fue ingresada erroneamente'
+      'is_natural_no_zero' => '<strong>%s</strong> fue ingresada erroneamente',
+      'valid_email' => '<strong>%s</strong> es inválido.'
     ];
 
     $this->error_delimiter = [
@@ -73,13 +82,17 @@ class Clientes extends CI_Controller {
 
       if( $this->form_validation->run() ) {
         $data['cliente']['nombre_cliente'] = $this->security->xss_clean( $this->input->post('nombre_cliente') );
-        $data['cliente']['contacto'] = $this->security->xss_clean( $this->input->post('contacto') );
+        $data['cliente']['telefono'] = $this->security->xss_clean( $this->input->post('telefono') );
+        $data['cliente']['email'] = $this->security->xss_clean( $this->input->post('email') );
+        $data['cliente']['direccion'] = $this->security->xss_clean( $this->input->post('direccion') );
         $data['cliente']['id_localidad'] = $this->security->xss_clean( $this->input->post('id_localidad') );
         $data['cliente']['tipo_cliente'] = $this->security->xss_clean( $this->input->post('tipo_cliente') );
         $this->clientes_model->crear(
           $data['cliente']['nombre_cliente'],
-          $data['cliente']['contacto'],
+          $data['cliente']['telefono'],
+          $data['cliente']['email'],
           $data['cliente']['id_localidad'],
+          $data['cliente']['direccion'],
           $data['cliente']['tipo_cliente']
         );
         $data['exito'] = TRUE;
@@ -111,14 +124,18 @@ class Clientes extends CI_Controller {
 
       if( $this->form_validation->run() ) {
         $data['cliente']['nombre_cliente'] = $this->security->xss_clean( $this->input->post('nombre_cliente') );
-        $data['cliente']['contacto'] = $this->security->xss_clean( $this->input->post('contacto') );
+        $data['cliente']['telefono'] = $this->security->xss_clean( $this->input->post('telefono') );
+        $data['cliente']['email'] = $this->security->xss_clean( $this->input->post('email') );
+        $data['cliente']['direccion'] = $this->security->xss_clean( $this->input->post('direccion') );
         $data['cliente']['id_localidad'] = $this->security->xss_clean( $this->input->post('id_localidad') );
         $data['cliente']['tipo_cliente'] = $this->security->xss_clean( $this->input->post('tipo_cliente') );
         $this->clientes_model->actualizar(
           $id,
           $data['cliente']['nombre_cliente'],
-          $data['cliente']['contacto'],
+          $data['cliente']['telefono'],
+          $data['cliente']['email'],
           $data['cliente']['id_localidad'],
+          $data['cliente']['direccion'],
           $data['cliente']['tipo_cliente']
         );
         $data['exito'] = TRUE;
@@ -136,22 +153,23 @@ class Clientes extends CI_Controller {
     if (! $this->session->userdata('esta_logeado') ) {
       show_404();
     } else {
-    $data=[
-      'cliente'=>$this->clientes_model->leer($id) ,
-      'ops'=>['to','do','this','foo','bar'] ];
+      $data = [
+        'cliente' => $this->clientes_model->leer($id),
+        'ops' => ['to', 'do', 'this', 'foo', ' bar'] // TODO
+      ];
       $this->load->view('includes/header');
       $this->load->view('pages/clientes/ver', $data);
       $this->load->view('includes/footer');
     }
   }
 
-  public function eliminar( $id=0 )
+  public function eliminar( $id = 0 )
   {
     if (! $this->session->userdata('esta_logeado') and $this->session->userdata('es_admin') ) {
       show_404();
     } else {
       $this->clientes_model->eliminar($id);
-      redirect( base_url('/clientes'), 'refresh');
+      redirect( base_url('/clientes'), 'refresh' );
     }
   }
 }

@@ -1,31 +1,27 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Ventas extends CI_Controller {
 
-  public function __construct() {
-
+  public function __construct()
+  {
     parent::__construct();
-}
-  public function index(){
+  }
+
+  public function index() {
 
   }
 
-  public function crear (){
-    if (!$this->session->userdata('esta_logeado') ){
-    //no esta logeado, mensaje de error
-    show_404();
+  public function crear() {
+    if ( ! $this->session->userdata('esta_logeado') ) {
+      show_404();
+    } else {
+      $this->load->view('includes/header');
+      $this->load->view('pages/ventas/crear');
+      $this->load->view('includes/footer_vue1');
+      $this->load->view('pages/ventas/scripts_crear');
+      $this->load->view('includes/footer_vue2');
+    }
   }
-  else{
-    $this->load->view('includes/header');
-    $this->load->view('pages/ventas/crear');
-    $this->load->view('includes/footer_vue1');
-    $this->load->view('pages/ventas/script_crear');
-    $this->load->view('includes/footer_vue2');
 
-  }
-}
-
-
-
+  
 }

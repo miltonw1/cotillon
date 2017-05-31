@@ -1,21 +1,15 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?>
-<h2 class="text-center">Productos pertenecientes a <?php echo $categoria['nombre_categoria'] ?> </h2>
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<h2 class="text-center">Productos pertenecientes a '<?php echo $categoria['nombre_categoria']; ?>'</h2>
 <hr>
-    <table class="table table-striped">
-
-        <thead>
-            <tbody>
-                <th>Producto</th>
-              </thead>
-            </tbody>
-            <?php
-            foreach($productos as $prod):  ?>
-                <tr>
-                    <td><a href="<?php base_url('productos/ver/'.$prod['id_producto'])?>" >
-                        <?php echo $prod['nombre']; ?> </td>
-                    </td>
-                </tr>
-                <?php    endforeach;  ?>
-    </table>
+<table class="table table-striped">
+  <thead>
+    <th>Producto</th>
+  </thead>
+  <tbody>
+    <?php foreach ($productos as $prod):?>
+    <tr>
+      <td><a href="<?php echo base_url('productos/ver/'.$prod['id_producto'] );?>"><?php echo $prod['nombre'];?></a></td>
+    </tr>
+    <?php endforeach;?>
+  </tbody>
+</table>

@@ -28,7 +28,7 @@ class Inicio extends CI_Controller {
 				if ( $aux !== FALSE ) {
 					//si coinciden, creo la sesion
 					$data = array(
-						"id_usuario"=>$aux['id_usuario'],
+							"id_usuario" => $aux['id_usuario'],
 							"usuario" => $aux['nombre'],
 							"es_admin" => $aux['es_admin'],
 							"esta_logeado" => TRUE
