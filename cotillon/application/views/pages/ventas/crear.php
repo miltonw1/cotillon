@@ -1,25 +1,30 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<div id="root">
+<div id="root" v-cloak style="margin: 10px 0">
 
-  <select name="productos" class="form-control" v-model="producto_seleccionado">
-    <option v-for="opc in productos" v-bind:value="{text: opc.text, id: opc.id, precio: opc.precio}">{{opc.text}}</option>
-  </select>
+  <div class="form-inline">
+    <v-select v-bind:options="productosParaSelect"
+    v-model="producto_seleccionado"
+    placeholder="Seleccione un producto" ></v-select>  
+    <label>Codigo de producto:  </label><input type="text" name="id" v-model.number="id_producto_seleccionado" class="form-control" >
+    <label>Cantidad:  </label><input type="text" name="cantidad" v-model.number="cantidad" v-on:keyup.enter="agregarProducto" class="form-control">
+    <button type="button" name="button" v-on:click="agregarProducto" class="btn btn-success">agregar</button>
+  </div>
 
-  <input type="text" name="cantidad" v-model="cantidad" class="form_control" v-on:keyup.enter="agregarProducto">
+  <div v-show="errors.length" class="alert alert-danger" role="alert" >
+    <ul>
+      <li v-for="error in errors">{{error}}</li>
+    </ul>
+  </div>
 
-  <button type="button" name="button" v-on:click="agregarProducto">agregar</button>
-
-<div v-show="errors.length" class="alert alert-danger" role="alert">
-<ul>
-  <li v-for="error in errors" >{{error}}</li>
-</ul>
-</div>
-
-<ul>
+  <ul>
     <li v-for="prod in productos_agregados" v-on:dblclick="eliminarDeLista">
-      {{prod.text}} - cantidad: {{prod.cantidad}}
+      {{prod.nombre}} - cantidad: {{prod.cantidad}}
     </li>
   </ul>
-  <p v-if="totalDeVentas"> subtotal: <strong> {{ totalDeVentas}} </strong> </p>
-  <p v-else>Agregue productos al listado</p>
+  <hr>
+  <div>
+    <p v-if="totalDeVenta">subtotal: <strong>${{totalDeVenta()}}</strong></p>
+    <p v-else>Agregue productos al listado</p>
+  </div>
+
 </div>

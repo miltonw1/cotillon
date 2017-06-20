@@ -14,4 +14,4 @@
     } ?>
 
 </div>
-<script src="http://localhost:8080/assets/js/finder.js"></script>
+<script src="http://localhost/assets/js/finder.js"></script>

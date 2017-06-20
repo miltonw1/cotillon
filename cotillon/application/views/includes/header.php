@@ -5,6 +5,7 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="http://localhost/assets/css/bootstrap.css">
 		<link rel="stylesheet" href="http://localhost/assets/css/font-awesome.min.css">
+		<link rel="stylesheet" href="http://localhost/assets/css/style.css">
 		<title>Cotillon </title>
 	</head>
 	<body>
@@ -27,6 +28,7 @@
 							<li><?php echo anchor( base_url("localidades/"), "Localidades"); ?></li>
 							<li><?php echo anchor( base_url("clientes/"), "Clientes"); ?></li>
 							<li><?php echo anchor( base_url("proveedores/"), "Proveedores"); ?></li>
+							<li><?php echo anchor( base_url("ventas/"), "Ventas"); ?></li>
 							<li><?php echo anchor( base_url("productos/"), "Productos"); ?></li>
 						<?php if($this->session->userdata('es_admin')): ?>
 							<li><?php echo anchor( base_url("usuarios/"), "Usuarios"); ?></li>

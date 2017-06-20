@@ -57,4 +57,4 @@
     </div>
   <?php echo form_close(); ?>
 </div>
-<script src='http://localhost:8080/assets/js/password-show.js'></script>
+<script src='http://localhost/assets/js/password-show.js'></script>
