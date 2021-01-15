@@ -2,6 +2,6 @@
 
 ## Descripcion del proyecto
 
-Proyecto destinado a la gestion comercial de un cotillon.
+Sistema de gestion comercial de un cotillon.
 
 
